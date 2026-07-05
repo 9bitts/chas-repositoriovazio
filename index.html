@@ -21,40 +21,34 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <div class="brand"><span class="dot"></span>Bálsamo da Natureza <span class="sub">&nbsp;// SISTEMA FITOTERÁPICO</span></div>
+    <div class="brand"><span class="dot"></span><span data-i18n="brand">Bálsamo da Natureza</span>&nbsp;<span class="sub" data-i18n="brandSub">// SISTEMA FITOTERÁPICO</span></div>
     <div class="nav-links">
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#chas">Chás</a>
-      <a href="catalogo.html">Catálogo de Plantas</a>
+      <a href="#como-funciona" data-i18n="navComoFunciona">Como funciona</a>
+      <a href="#chas" data-i18n="navChas">Chás</a>
+      <a href="catalogo.html" data-i18n="navCatalogo">Catálogo de Plantas</a>
     </div>
+    <div class="lang-switch" id="langSwitch"></div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow reveal">Base de dados viva &middot; 42 plantas &middot; 17 protocolos</span>
-    <h1 class="reveal">Encontre o chá certo<br>para o que você sente</h1>
-    <p class="lead reveal">Digite um sintoma e o sistema cruza décadas de conhecimento popular brasileiro com uma interface pensada para o futuro. Cada chá tem sua própria página, com todos os ingredientes escaneados em detalhe.</p>
+    <span class="eyebrow reveal" data-i18n="heroEyebrow">Base de dados viva &middot; 42 plantas &middot; 17 protocolos</span>
+    <h1 class="reveal" data-i18n-html="heroTitle">Encontre o chá certo<br>para o que você sente</h1>
+    <p class="lead reveal" data-i18n="heroLead">Digite um sintoma e o sistema cruza décadas de conhecimento popular brasileiro com uma interface pensada para o futuro. Cada chá tem sua própria página, com todos os ingredientes escaneados em detalhe.</p>
 
     <div class="search-box reveal">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="symptomSearch" type="text" placeholder="Buscar por sintoma: azia, gripe, insônia, pressão alta..." autocomplete="off">
-      <button class="clear-btn" id="clearSearch">Limpar</button>
+      <input id="symptomSearch" type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Buscar por sintoma: azia, gripe, insônia, pressão alta..." autocomplete="off">
+      <button class="clear-btn" id="clearSearch" data-i18n="searchClear">Limpar</button>
     </div>
 
-    <div class="quick-tags reveal">
-      <button data-quick-tag="azia">Azia</button>
-      <button data-quick-tag="gripe">Gripe</button>
-      <button data-quick-tag="insônia">Insônia</button>
-      <button data-quick-tag="pressão">Pressão Alta</button>
-      <button data-quick-tag="renais">Cálculos Renais</button>
-      <button data-quick-tag="reumatismo">Reumatismo</button>
-    </div>
+    <div class="quick-tags reveal" id="quickTags"></div>
 
     <div class="stat-row reveal">
-      <div class="stat"><b>17</b><span>Chás catalogados</span></div>
-      <div class="stat"><b>42</b><span>Plantas mapeadas</span></div>
-      <div class="stat"><b>100%</b><span>Origem brasileira</span></div>
+      <div class="stat"><b>17</b><span data-i18n="statChas">Chás catalogados</span></div>
+      <div class="stat"><b>42</b><span data-i18n="statPlantas">Plantas mapeadas</span></div>
+      <div class="stat"><b>100%</b><span data-i18n="statOrigem">Origem brasileira</span></div>
     </div>
   </div>
 </header>
@@ -62,24 +56,24 @@
 <section class="section" id="como-funciona">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Como funciona</span>
-      <h2>Um sistema, três camadas de informação</h2>
+      <span class="eyebrow" data-i18n="howEyebrow">Como funciona</span>
+      <h2 data-i18n="howTitle">Um sistema, três camadas de informação</h2>
     </div>
     <div class="info-grid reveal-stagger">
       <div class="info-card reveal">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <h3>1. Busque por sintoma</h3>
-        <p>Digite o que você está sentindo e o sistema filtra instantaneamente os chás relevantes.</p>
+        <h3 data-i18n="how1Title">1. Busque por sintoma</h3>
+        <p data-i18n="how1Text">Digite o que você está sentindo e o sistema filtra instantaneamente os chás relevantes.</p>
       </div>
       <div class="info-card reveal">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
-        <h3>2. Abra a página do chá</h3>
-        <p>Cada chá tem uma página dedicada com modo de preparo e todos os ingredientes usados.</p>
+        <h3 data-i18n="how2Title">2. Abra a página do chá</h3>
+        <p data-i18n="how2Text">Cada chá tem uma página dedicada com modo de preparo e todos os ingredientes usados.</p>
       </div>
       <div class="info-card reveal">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg>
-        <h3>3. Escaneie o ingrediente</h3>
-        <p>Passe o mouse (ou toque no celular) em cada planta para revelar suas propriedades reais.</p>
+        <h3 data-i18n="how3Title">3. Escaneie o ingrediente</h3>
+        <p data-i18n="how3Text">Passe o mouse (ou toque no celular) em cada planta para revelar suas propriedades reais.</p>
       </div>
     </div>
   </div>
@@ -88,37 +82,37 @@
 <section class="section" id="chas">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Catálogo de chás</span>
-      <h2>Todos os chás, por sintoma</h2>
-      <p style="color:var(--ink-dim); margin-top:12px;">Use a busca no topo da página para filtrar esta lista em tempo real.</p>
+      <span class="eyebrow" data-i18n="teasEyebrow">Catálogo de chás</span>
+      <h2 data-i18n="teasTitle">Todos os chás, por sintoma</h2>
+      <p style="color:var(--ink-dim); margin-top:12px;" data-i18n="teasHint">Use a busca no topo da página para filtrar esta lista em tempo real.</p>
     </div>
     <div class="teas-grid" id="teasGrid"></div>
-    <div class="no-results" id="noResults">Nenhum chá encontrado para esse sintoma. Tente outro termo ou explore o <a href="catalogo.html" style="color:var(--accent)">catálogo completo de plantas</a>.</div>
+    <div class="no-results" id="noResults"></div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Antes de tomar</span>
-      <h2>Informações importantes</h2>
+      <span class="eyebrow" data-i18n="infoEyebrow">Antes de tomar</span>
+      <h2 data-i18n="infoTitle">Informações importantes</h2>
     </div>
     <div class="info-grid reveal-stagger">
       <div class="info-card reveal">
-        <h3>Uso consciente</h3>
-        <p>Esta cartilha tem propósito informativo, baseado no conhecimento popular. Caso não haja melhora, procure atendimento médico.</p>
+        <h3 data-i18n="info1Title">Uso consciente</h3>
+        <p data-i18n="info1Text">Esta cartilha tem propósito informativo, baseado no conhecimento popular. Caso não haja melhora, procure atendimento médico.</p>
       </div>
       <div class="info-card reveal">
-        <h3>Modo de preparo</h3>
-        <p>Infusão: água fervente sobre 8–10g da planta fresca (ou 4–5g seca) por 150ml. Tampar e descansar 5–10 minutos.</p>
+        <h3 data-i18n="info2Title">Modo de preparo</h3>
+        <p data-i18n="info2Text">Infusão: água fervente sobre 8–10g da planta fresca (ou 4–5g seca) por 150ml. Tampar e descansar 5–10 minutos.</p>
       </div>
       <div class="info-card reveal">
-        <h3>Adoçante</h3>
-        <p>Os chás nunca devem ser adoçados com açúcar. Pode-se adoçar com mel após esfriarem.</p>
+        <h3 data-i18n="info3Title">Adoçante</h3>
+        <p data-i18n="info3Text">Os chás nunca devem ser adoçados com açúcar. Pode-se adoçar com mel após esfriarem.</p>
       </div>
       <div class="info-card reveal">
-        <h3>Duração do uso</h3>
-        <p>Não tomar por mais de 15 dias seguidos. Respeite intervalos de 7 dias entre os ciclos.</p>
+        <h3 data-i18n="info4Title">Duração do uso</h3>
+        <p data-i18n="info4Text">Não tomar por mais de 15 dias seguidos. Respeite intervalos de 7 dias entre os ciclos.</p>
       </div>
     </div>
   </div>
@@ -126,12 +120,13 @@
 
 <footer>
   <div class="wrap">
-    <p class="disclaimer">"Deus nos ofertou a Natureza como alimento para nosso equilíbrio orgânico e bálsamo para nossas dores físicas." — Desenvolvido com carinho e amor fraterno. A fé sempre será o grande catalizador.</p>
-    <p>&copy; <span id="year"></span> Bálsamo da Natureza</p>
+    <p class="disclaimer" data-i18n="footerQuote">"Deus nos ofertou a Natureza como alimento para nosso equilíbrio orgânico e bálsamo para nossas dores físicas." — Desenvolvido com carinho e amor fraterno. A fé sempre será o grande catalizador.</p>
+    <p>&copy; <span id="year"></span> <span data-i18n="footerRights">Bálsamo da Natureza</span></p>
   </div>
 </footer>
 
 <script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>

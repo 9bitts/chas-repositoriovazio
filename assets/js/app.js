@@ -1,5 +1,5 @@
 /* ============================================================
-   BÁLSAMO DA NATUREZA — Motor da interface (tech theme)
+   BÁLSAMO DA NATUREZA — Motor da interface (tech theme + i18n)
    ============================================================ */
 
 /* ---------------- Ícones botânicos procedurais (SVG) ---------------- */
@@ -39,7 +39,6 @@ function plantIconSVG(type){
   return `<svg class="plant-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
 }
 
-// hash determinístico simples pra variar levemente a rotação de cada ícone
 function seedFromString(str){
   let h = 0;
   for (let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
@@ -48,35 +47,36 @@ function seedFromString(str){
 
 /* ---------------- Cartão de ingrediente ---------------- */
 function ingredientCardHTML(plantId, accent){
-  const p = PLANTS[plantId];
-  if (!p) return "";
+  const base = PLANTS[plantId];
+  const p = plantText(plantId);
+  if (!base || !p) return "";
   const seed = seedFromString(plantId);
-  const rot = (seed % 14) - 7; // leve rotação -7..7 graus
+  const rot = (seed % 14) - 7;
   return `
-  <div class="ing-card reveal" style="--card-a:${accent}" data-plant="${plantId}" tabindex="0" role="button" aria-label="Ver propriedades de ${p.name}">
+  <div class="ing-card reveal" style="--card-a:${accent}" data-plant="${plantId}" tabindex="0" role="button" aria-label="${t('ingAriaLabel')} ${p.name}">
     <div class="ing-visual">
       <div class="scan-ring"></div>
       <div class="scan-ring r2"></div>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div style="transform:rotate(${rot}deg); color:${accent};">${plantIconSVG(p.icon)}</div>
+      <div style="transform:rotate(${rot}deg); color:${accent};">${plantIconSVG(base.icon)}</div>
       <span class="part-tag">${p.part}</span>
     </div>
     <div class="ing-body">
       <h4>${p.name}</h4>
-      <p class="sci">${p.sci}</p>
+      <p class="sci">${base.sci}</p>
       <span class="hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-        toque para ver propriedades
+        ${t('ingHint')}
       </span>
     </div>
     <div class="ing-overlay">
       <span class="close-hint">✕</span>
       <h4>${p.name}</h4>
-      <p class="sci">${p.sci}</p>
-      <div class="row"><b>Propriedades</b><span>${p.propriedades}</span></div>
-      <div class="row"><b>Onde nasce</b><span>${p.ondeNasce}</span></div>
-      <div class="row"><b>Como adquirir</b><span>${p.aquisicao}</span></div>
+      <p class="sci">${base.sci}</p>
+      <div class="row"><b>${t('ingPropriedades')}</b><span>${p.propriedades}</span></div>
+      <div class="row"><b>${t('ingOndeNasce')}</b><span>${p.ondeNasce}</span></div>
+      <div class="row"><b>${t('ingAquisicao')}</b><span>${p.aquisicao}</span></div>
     </div>
   </div>`;
 }
@@ -85,9 +85,8 @@ function renderIngredients(containerId, plantIds, accent){
   const el = document.getElementById(containerId);
   if (!el) return;
   el.innerHTML = plantIds.map(id => ingredientCardHTML(id, accent)).join("");
-  // toggle no toque/clique (mobile e acessibilidade); hover já é tratado via CSS
   el.querySelectorAll(".ing-card").forEach(card => {
-    card.addEventListener("click", (e) => {
+    card.addEventListener("click", () => {
       const wasActive = card.classList.contains("active");
       el.querySelectorAll(".ing-card.active").forEach(c => c.classList.remove("active"));
       if (!wasActive) card.classList.add("active");
@@ -98,16 +97,19 @@ function renderIngredients(containerId, plantIds, accent){
 
 /* ---------------- Grid de chás (home) ---------------- */
 function teaCardHTML(tea){
-  const seed = seedFromString(tea.slug);
+  const tx = teaText(tea.slug);
+  const firstPlant = PLANTS[tea.plants[0]];
+  const n = tea.plants.length;
+  const word = t('ingredientWord')[n > 1 ? 1 : 0];
   return `
-  <a class="tea-card reveal" href="cha-${tea.slug}.html" style="--a:${tea.accent}" data-symptom="${tea.symptom.toLowerCase()}" data-name="${tea.name.toLowerCase()}" data-plants="${tea.plants.map(id=>PLANTS[id].name.toLowerCase()).join(',')}">
-    <div class="ring-icon" style="color:${tea.accent}">${plantIconSVG(PLANTS[tea.plants[0]].icon)}</div>
-    <span class="tag">${tea.symptom}</span>
-    <h3>${tea.name}</h3>
-    <p>${tea.tagline}</p>
+  <a class="tea-card reveal" href="cha-${tea.slug}.html" style="--a:${tea.accent}" data-symptom="${tx.symptom.toLowerCase()}" data-name="${tx.name.toLowerCase()}">
+    <div class="ring-icon" style="color:${tea.accent}">${plantIconSVG(firstPlant.icon)}</div>
+    <span class="tag">${tx.symptom}</span>
+    <h3>${tx.name}</h3>
+    <p>${tx.tagline}</p>
     <div class="meta">
-      <span>${tea.plants.length} ingrediente${tea.plants.length>1?"s":""}</span>
-      <span class="go">Ver chá →</span>
+      <span>${n} ${word}</span>
+      <span class="go">${t('verCha')}</span>
     </div>
   </a>`;
 }
@@ -116,11 +118,12 @@ function renderTeaGrid(filter){
   const grid = document.getElementById("teasGrid");
   if (!grid) return;
   const q = (filter || "").trim().toLowerCase();
-  const filtered = TEAS.filter(t => {
+  const filtered = TEAS.filter(tea => {
     if (!q) return true;
-    return t.symptom.toLowerCase().includes(q) ||
-           t.name.toLowerCase().includes(q) ||
-           t.plants.some(id => PLANTS[id].name.toLowerCase().includes(q));
+    const tx = teaText(tea.slug);
+    return tx.symptom.toLowerCase().includes(q) ||
+           tx.name.toLowerCase().includes(q) ||
+           tea.plants.some(id => plantText(id).name.toLowerCase().includes(q));
   });
   grid.innerHTML = filtered.map(teaCardHTML).join("");
   const noRes = document.getElementById("noResults");
@@ -128,17 +131,29 @@ function renderTeaGrid(filter){
   initScrollReveal();
 }
 
+let currentHomeSearch = "";
 function initHomeSearch(){
   const input = document.getElementById("symptomSearch");
   const clearBtn = document.getElementById("clearSearch");
   if (!input) return;
-  input.addEventListener("input", () => renderTeaGrid(input.value));
+  input.value = currentHomeSearch;
+  input.addEventListener("input", () => { currentHomeSearch = input.value; renderTeaGrid(input.value); });
   if (clearBtn){
-    clearBtn.addEventListener("click", () => { input.value=""; renderTeaGrid(""); input.focus(); });
+    clearBtn.addEventListener("click", () => { input.value=""; currentHomeSearch=""; renderTeaGrid(""); input.focus(); });
   }
-  document.querySelectorAll("[data-quick-tag]").forEach(btn=>{
+}
+
+function renderQuickTags(){
+  const container = document.getElementById("quickTags");
+  if (!container) return;
+  const tags = t('quickTags');
+  container.innerHTML = tags.map(tag => "<button type=\"button\" data-quick-tag=\"" + tag.term + "\">" + tag.label + "</button>").join("");
+  container.querySelectorAll("[data-quick-tag]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
+      const input = document.getElementById("symptomSearch");
+      if (!input) return;
       input.value = btn.getAttribute("data-quick-tag");
+      currentHomeSearch = input.value;
       renderTeaGrid(input.value);
       document.getElementById("teasGrid").scrollIntoView({behavior:"smooth", block:"start"});
     });
@@ -161,56 +176,60 @@ function buildPlantTeaMap(){
 const PLANT_TEA_MAP = (typeof TEAS !== "undefined") ? buildPlantTeaMap() : {};
 
 function catalogCardHTML(plantId){
-  const p = PLANTS[plantId];
-  if (!p) return "";
+  const base = PLANTS[plantId];
+  const p = plantText(plantId);
+  if (!base || !p) return "";
   const seed = seedFromString(plantId);
   const rot = (seed % 14) - 7;
   const teas = PLANT_TEA_MAP[plantId] || [];
-  const teaLinksHTML = teas.map(t =>
-    `<a href="cha-${t.slug}.html" class="tea-pill" style="color:${t.accent}; border-color:color-mix(in srgb, ${t.accent} 50%, transparent);">${t.symptom}</a>`
-  ).join("");
+  const teaLinksHTML = teas.map(function(tea){
+    const tx = teaText(tea.slug);
+    return "<a href=\"cha-" + tea.slug + ".html\" class=\"tea-pill\" style=\"color:" + tea.accent + "; border-color:color-mix(in srgb, " + tea.accent + " 50%, transparent);\">" + tx.symptom + "</a>";
+  }).join("");
   return `
-  <div class="ing-card reveal" style="--card-a:${CATALOG_ACCENT}" data-plant="${plantId}" tabindex="0" role="button" aria-label="Ver propriedades de ${p.name}">
+  <div class="ing-card reveal" style="--card-a:${CATALOG_ACCENT}" data-plant="${plantId}" tabindex="0" role="button" aria-label="${t('ingAriaLabel')} ${p.name}">
     <div class="ing-visual">
       <div class="scan-ring"></div>
       <div class="scan-ring r2"></div>
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
-      <div style="transform:rotate(${rot}deg); color:${CATALOG_ACCENT};">${plantIconSVG(p.icon)}</div>
+      <div style="transform:rotate(${rot}deg); color:${CATALOG_ACCENT};">${plantIconSVG(base.icon)}</div>
       <span class="part-tag">${p.part}</span>
     </div>
     <div class="ing-body">
       <h4>${p.name}</h4>
-      <p class="sci">${p.sci}</p>
+      <p class="sci">${base.sci}</p>
       <span class="hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-        toque para ver propriedades
+        ${t('ingHint')}
       </span>
     </div>
     <div class="ing-overlay">
       <span class="close-hint">✕</span>
       <h4>${p.name}</h4>
-      <p class="sci">${p.sci}</p>
-      <div class="row"><b>Propriedades</b><span>${p.propriedades}</span></div>
-      <div class="row"><b>Onde nasce</b><span>${p.ondeNasce}</span></div>
-      <div class="row"><b>Como adquirir</b><span>${p.aquisicao}</span></div>
-      ${teaLinksHTML ? `<div class="row"><b>Usado nos chás</b><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">${teaLinksHTML}</div></div>` : ""}
+      <p class="sci">${base.sci}</p>
+      <div class="row"><b>${t('ingPropriedades')}</b><span>${p.propriedades}</span></div>
+      <div class="row"><b>${t('ingOndeNasce')}</b><span>${p.ondeNasce}</span></div>
+      <div class="row"><b>${t('ingAquisicao')}</b><span>${p.aquisicao}</span></div>
+      ${teaLinksHTML ? ('<div class="row"><b>' + t('ingUsadoChas') + '</b><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">' + teaLinksHTML + '</div></div>') : ""}
     </div>
   </div>`;
 }
 
+let currentCatalogSearch = "";
 function renderCatalog(filter){
   const grid = document.getElementById("catalogGrid");
   if (!grid) return;
   const q = (filter || "").trim().toLowerCase();
-  const ids = Object.keys(PLANTS).filter(id => {
+  const ids = Object.keys(PLANTS).filter(function(id){
     if (!q) return true;
-    const p = PLANTS[id];
+    const p = plantText(id);
+    const base = PLANTS[id];
     return p.name.toLowerCase().includes(q) ||
-           p.sci.toLowerCase().includes(q) ||
+           base.sci.toLowerCase().includes(q) ||
            p.part.toLowerCase().includes(q) ||
-           (PLANT_TEA_MAP[id]||[]).some(t => t.symptom.toLowerCase().includes(q));
-  }).sort((a,b) => PLANTS[a].name.localeCompare(PLANTS[b].name, "pt-BR"));
+           (PLANT_TEA_MAP[id]||[]).some(function(tea){ return teaText(tea.slug).symptom.toLowerCase().includes(q); });
+  }).sort(function(a,b){ return plantText(a).name.localeCompare(plantText(b).name); });
   grid.innerHTML = ids.map(catalogCardHTML).join("");
   const noRes = document.getElementById("noResultsCatalog");
   if (noRes) noRes.style.display = ids.length ? "none" : "block";
@@ -227,9 +246,96 @@ function renderCatalog(filter){
 function initCatalogSearch(){
   const input = document.getElementById("catalogSearch");
   if (!input) return;
-  input.addEventListener("input", () => renderCatalog(input.value));
+  input.value = currentCatalogSearch;
+  input.addEventListener("input", () => { currentCatalogSearch = input.value; renderCatalog(input.value); });
   const clearBtn = document.getElementById("clearCatalogSearch");
-  if (clearBtn) clearBtn.addEventListener("click", () => { input.value=""; renderCatalog(""); input.focus(); });
+  if (clearBtn) clearBtn.addEventListener("click", () => { input.value=""; currentCatalogSearch=""; renderCatalog(""); input.focus(); });
+}
+
+/* ---------------- Página de chá individual ---------------- */
+function renderTeaHero(slug){
+  const tx = teaText(slug);
+  if (!tx) return;
+  const tagEl = document.querySelector(".tea-hero .tag");
+  const h1El = document.querySelector(".tea-hero h1");
+  const pEl = document.querySelector(".tea-hero p.reveal");
+  const modoEl = document.querySelector(".modo-box div");
+  if (tagEl) tagEl.textContent = tx.symptom;
+  if (h1El) h1El.textContent = tx.name;
+  if (pEl) pEl.textContent = tx.tagline;
+  if (modoEl) modoEl.innerHTML = "<b>" + t('modoLabel') + "</b> " + tx.modo;
+  document.title = tx.name + " — " + t('brand');
+}
+
+/* ---------------- Traduções estáticas (data-i18n) ---------------- */
+function applyStaticTranslations(){
+  document.documentElement.setAttribute("lang", getLang() === "pt" ? "pt-BR" : getLang());
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    const val = t(key);
+    if (typeof val === "string") el.textContent = val;
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.getAttribute("data-i18n-html");
+    const val = t(key);
+    if (typeof val === "string") el.innerHTML = val;
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    const val = t(key);
+    if (typeof val === "string") el.setAttribute("placeholder", val);
+  });
+
+  const noResHome = document.getElementById("noResults");
+  if (noResHome){
+    noResHome.innerHTML = t('noResultsHomePre') + '<a href="catalogo.html" style="color:var(--accent)">' + t('noResultsHomeLink') + '</a>' + t('noResultsHomePost');
+  }
+
+  if (document.getElementById("teasGrid")) document.title = t('docTitleIndex');
+  if (document.getElementById("catalogGrid")) document.title = t('docTitleCatalog');
+  const teaSlug = document.body.getAttribute("data-tea");
+  if (teaSlug) renderTeaHero(teaSlug);
+}
+
+/* ---------------- Seletor de idioma ---------------- */
+function renderLangSwitcher(){
+  const container = document.getElementById("langSwitch");
+  if (!container) return;
+  const langs = [ ["pt","PT"], ["en","EN"], ["es","ES"] ];
+  const current = getLang();
+  container.innerHTML = langs.map(function(pair){
+    const code = pair[0], label = pair[1];
+    const activeClass = (code === current) ? "active" : "";
+    return "<button type=\"button\" data-lang=\"" + code + "\" class=\"" + activeClass + "\">" + label + "</button>";
+  }).join("");
+  container.querySelectorAll("[data-lang]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const lang = btn.getAttribute("data-lang");
+      if (lang === getLang()) return;
+      setLang(lang);
+      currentHomeSearch = "";
+      currentCatalogSearch = "";
+      refreshPage();
+    });
+  });
+}
+
+function refreshPage(){
+  applyStaticTranslations();
+  renderLangSwitcher();
+  renderQuickTags();
+  if (document.getElementById("teasGrid")) renderTeaGrid(currentHomeSearch);
+  if (document.getElementById("catalogGrid")) renderCatalog(currentCatalogSearch);
+  const teaSlug = document.body.getAttribute("data-tea");
+  if (teaSlug){
+    const tea = TEAS.find(x => x.slug === teaSlug);
+    if (tea) renderIngredients("ingredientsGrid", tea.plants, tea.accent);
+  }
+  const searchInput = document.getElementById("symptomSearch");
+  if (searchInput) searchInput.value = currentHomeSearch;
+  const catInput = document.getElementById("catalogSearch");
+  if (catInput) catInput.value = currentCatalogSearch;
 }
 
 /* ---------------- Scroll reveal ---------------- */
@@ -270,6 +376,7 @@ function initParticles(){
   const canvas = document.getElementById("particles");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
+  if (!ctx) return;
   let w, h, particles;
   const COUNT = window.innerWidth < 700 ? 26 : 52;
 
@@ -326,18 +433,20 @@ function initParticles(){
 document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   initScrollProgress();
-  initScrollReveal();
+  renderLangSwitcher();
+  applyStaticTranslations();
+  renderQuickTags();
   initHomeSearch();
-  renderTeaGrid(""); // no-op se não houver #teasGrid nesta página
+  initCatalogSearch();
 
-  // Página de chá individual: body[data-tea] define qual renderizar
+  renderTeaGrid("");
+  renderCatalog("");
+
   const teaSlug = document.body.getAttribute("data-tea");
   if (teaSlug){
     const tea = TEAS.find(t => t.slug === teaSlug);
     if (tea) renderIngredients("ingredientsGrid", tea.plants, tea.accent);
   }
 
-  // Página de catálogo geral
-  initCatalogSearch();
-  renderCatalog(""); // no-op se não houver #catalogGrid nesta página
+  initScrollReveal();
 });

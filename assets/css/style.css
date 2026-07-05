@@ -202,7 +202,7 @@ button{font-family:inherit;cursor:pointer;}
 /* ---------- Tea grid (home) ---------- */
 .teas-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));
   gap:22px;
 }
 .tea-card{
@@ -272,7 +272,7 @@ button{font-family:inherit;cursor:pointer;}
 
 .ingredients-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));
   gap:24px;
 }
 
@@ -376,7 +376,7 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ---------- Info section (index) ---------- */
 .info-grid{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:22px;
 }
 .info-card{
   background:var(--glass); border:1px solid var(--line); border-radius:var(--radius);
@@ -418,8 +418,24 @@ footer .disclaimer{
 @media (max-width:720px){
   .nav-links{display:none;}
   .section{padding:56px 0;}
-  .hero{padding:120px 0 60px;}
+  .hero{padding:155px 0 60px;}
   .stat-row{gap:28px;}
+
+  /* Nav em duas linhas: marca em cima (sem subtítulo),
+     botão de voltar + seletor de idioma embaixo — evita
+     que o texto da marca fique espremido contra as bordas. */
+  .nav-inner{
+    flex-wrap:wrap;
+    height:auto;
+    padding:14px 20px;
+    row-gap:10px;
+  }
+  .brand{flex:1 1 100%; font-size:0.92rem; gap:8px; min-width:0;}
+  .brand .sub{display:none;}
+  .nav-back{font-size:0.78rem; padding:7px 14px;}
+  .lang-switch{margin-left:auto;}
+  .tea-hero{padding-top:180px;}
+  .acc-header h3{font-size:1.02rem;}
 }
 
 /* ---------- Seletor de idioma ---------- */
@@ -485,7 +501,7 @@ footer .disclaimer{
 }
 .acc-photos{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(130px,100%),1fr));
   gap:10px;
   align-content:start;
 }

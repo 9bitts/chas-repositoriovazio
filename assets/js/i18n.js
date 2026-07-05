@@ -24,6 +24,7 @@ const UI = {
     navComoFunciona: "Como funciona",
     navChas: "Chás",
     navCatalogo: "Catálogo de Plantas",
+    navEstudo: "Estudo",
     navBack: "← Todos os chás",
 
     heroEyebrow: "Base de dados viva · 42 plantas · 17 protocolos",
@@ -98,7 +99,8 @@ const UI = {
     noResultsCatalog: "Nenhuma planta encontrada. Tente outro termo.",
 
     docTitleIndex: "Bálsamo da Natureza — Chás Medicinais Inteligentes",
-    docTitleCatalog: "Catálogo de Plantas — Bálsamo da Natureza"
+    docTitleCatalog: "Catálogo de Plantas — Bálsamo da Natureza",
+    docTitleEstudo: "Estudo — Bálsamo da Natureza"
   },
 
   en: {
@@ -107,6 +109,7 @@ const UI = {
     navComoFunciona: "How it works",
     navChas: "Teas",
     navCatalogo: "Plant Catalog",
+    navEstudo: "Study",
     navBack: "← All teas",
 
     heroEyebrow: "Living database · 42 plants · 17 protocols",
@@ -181,7 +184,8 @@ const UI = {
     noResultsCatalog: "No plant found. Try another term.",
 
     docTitleIndex: "Nature's Balm — Smart Medicinal Teas",
-    docTitleCatalog: "Plant Catalog — Nature's Balm"
+    docTitleCatalog: "Plant Catalog — Nature's Balm",
+    docTitleEstudo: "Study — Nature's Balm"
   },
 
   es: {
@@ -190,6 +194,7 @@ const UI = {
     navComoFunciona: "Cómo funciona",
     navChas: "Tés",
     navCatalogo: "Catálogo de Plantas",
+    navEstudo: "Estudio",
     navBack: "← Todos los tés",
 
     heroEyebrow: "Base de datos viva · 42 plantas · 17 protocolos",
@@ -264,7 +269,8 @@ const UI = {
     noResultsCatalog: "No se encontró ninguna planta. Prueba otro término.",
 
     docTitleIndex: "Bálsamo de la Naturaleza — Tés Medicinales Inteligentes",
-    docTitleCatalog: "Catálogo de Plantas — Bálsamo de la Naturaleza"
+    docTitleCatalog: "Catálogo de Plantas — Bálsamo de la Naturaleza",
+    docTitleEstudo: "Estudio — Bálsamo de la Naturaleza"
   }
 };
 

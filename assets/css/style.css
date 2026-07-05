@@ -531,3 +531,28 @@ h1,h2,h3,h4{ font-family:'Quicksand','Nunito',sans-serif; }
 .brand{ font-family:'Quicksand',sans-serif; }
 .stat b{ font-family:'Quicksand',sans-serif; }
 .lang-switch button{ font-family:'Quicksand',sans-serif; }
+
+/* ---------- Estudo (apostila) — Acordeão de texto ---------- */
+.acc-body-text{
+  padding:6px 26px 28px;
+  border-top:1px solid var(--line);
+  padding-top:22px;
+  color:var(--ink);
+  line-height:1.75;
+}
+.acc-body-text p{margin:0 0 16px;}
+.acc-body-text p:last-child{margin-bottom:0;}
+.acc-body-text strong{color:var(--accent);}
+.acc-subhead{
+  font-size:0.95rem;
+  color:var(--accent);
+  margin:22px 0 10px;
+  letter-spacing:0.02em;
+}
+.acc-subhead:first-child{margin-top:0;}
+.acc-list{margin:0 0 16px; padding-left:22px; display:flex; flex-direction:column; gap:8px;}
+.acc-list li{color:var(--ink);}
+
+@media (max-width:720px){
+  .acc-body-text{padding:20px 18px 24px;}
+}

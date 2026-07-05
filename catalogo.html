@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo de Plantas — Bálsamo da Natureza</title>
-<meta name="description" content="Catálogo completo de 42 plantas medicinais brasileiras: onde nascem, como adquirir e propriedades.">
+<title>Catálogo das Plantas — Bálsamo da Natureza</title>
+<meta name="description" content="Catálogo completo de 40 plantas medicinais: nome científico, sinonímia, características, habitat, propriedades e fotos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -29,28 +29,28 @@
 
 <header class="tea-hero">
   <div class="wrap">
-    <span class="tag reveal" data-i18n="catalogTag">Base de dados completa</span>
-    <h1 class="reveal" data-i18n="catalogTitle">Catálogo de Plantas Medicinais</h1>
-    <p class="reveal" data-i18n="catalogLead">42 plantas mapeadas: onde nascem, como conseguir e suas propriedades. Toque em qualquer uma para escanear.</p>
+    <span class="tag reveal">Grupo Espírita Maria de Nazaré</span>
+    <h1 class="reveal">Catálogo das Plantas Medicinais</h1>
+    <p class="reveal">40 plantas, em ordem alfabética. Clique no nome de cada uma para abrir as fotos e as informações completas.</p>
 
     <div class="search-box reveal" style="margin-top:34px;">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="catalogSearch" type="text" data-i18n-placeholder="catalogSearchPlaceholder" placeholder="Buscar planta, nome científico ou sintoma..." autocomplete="off">
-      <button class="clear-btn" id="clearCatalogSearch" data-i18n="searchClear">Limpar</button>
+      <input id="accSearch" type="text" placeholder="Buscar planta pelo nome ou nome científico..." autocomplete="off">
+      <button class="clear-btn" id="clearAccSearch">Limpar</button>
     </div>
   </div>
 </header>
 
 <section class="section">
   <div class="wrap">
-    <div class="ingredients-grid" id="catalogGrid"></div>
-    <div class="no-results" id="noResultsCatalog" data-i18n="noResultsCatalog">Nenhuma planta encontrada. Tente outro termo.</div>
+    <div class="plant-accordion" id="plantAccordion"></div>
+    <div class="no-results" id="noResultsAcc">Nenhuma planta encontrada. Tente outro termo.</div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p class="disclaimer" data-i18n="footerDisclaimerCatalog">Esta cartilha tem propósito informativo, baseado no conhecimento popular. Caso não haja melhora, procure atendimento médico.</p>
+    <p class="disclaimer">Conteúdo original do "Catálogo das Plantas Medicinais" — Grupo Espírita Maria de Nazaré. Reproduzido para fins informativos. Caso não haja melhora, procure atendimento médico.</p>
     <p>&copy; <span id="year"></span> <span data-i18n="footerRights">Bálsamo da Natureza</span></p>
   </div>
 </footer>
@@ -58,6 +58,8 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/catalogo-data.js"></script>
+<script src="assets/js/catalogo.js"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

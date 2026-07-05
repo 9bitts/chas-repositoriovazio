@@ -312,6 +312,7 @@ function renderLangSwitcher(){
   container.querySelectorAll("[data-lang]").forEach(btn => {
     btn.addEventListener("click", () => {
       const lang = btn.getAttribute("data-lang");
+      closeMobileMenu();
       if (lang === getLang()) return;
       setLang(lang);
       currentHomeSearch = "";
@@ -429,6 +430,54 @@ function initParticles(){
   requestAnimationFrame(step);
 }
 
+/* ---------------- Menu mobile (hamburguer) ---------------- */
+function closeMobileMenu(){
+  const toggle = document.getElementById("navToggle");
+  const menu = document.getElementById("navMenu");
+  if (!toggle || !menu) return;
+  toggle.classList.remove("open");
+  menu.classList.remove("open");
+  toggle.setAttribute("aria-expanded", "false");
+}
+
+function initNavToggle(){
+  const toggle = document.getElementById("navToggle");
+  const menu = document.getElementById("navMenu");
+  if (!toggle || !menu) return;
+
+  const closeMenu = closeMobileMenu;
+  const openMenu = () => {
+    toggle.classList.add("open");
+    menu.classList.add("open");
+    toggle.setAttribute("aria-expanded", "true");
+  };
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (menu.classList.contains("open")) closeMenu(); else openMenu();
+  });
+
+  // Fecha ao clicar em qualquer link dentro do menu
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+
+  // Fecha ao clicar fora do menu
+  document.addEventListener("click", (e) => {
+    if (!menu.classList.contains("open")) return;
+    if (menu.contains(e.target) || toggle.contains(e.target)) return;
+    closeMenu();
+  });
+
+  // Fecha com a tecla Esc
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Fecha automaticamente se a tela crescer para desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 720) closeMenu();
+  });
+}
+
 /* ---------------- Boot ---------------- */
 document.addEventListener("DOMContentLoaded", () => {
   initParticles();
@@ -438,6 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderQuickTags();
   initHomeSearch();
   initCatalogSearch();
+  initNavToggle();
 
   renderTeaGrid("");
   renderCatalog("");

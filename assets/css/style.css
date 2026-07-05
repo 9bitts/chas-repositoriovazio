@@ -109,11 +109,14 @@ button{font-family:inherit;cursor:pointer;}
 }
 .nav-inner{
   max-width:var(--maxw); margin:0 auto; padding:0 24px;
-  height:68px; display:flex; align-items:center; justify-content:space-between;
+  min-height:68px; display:flex; align-items:center; justify-content:space-between;
+  position:relative;
 }
-.brand{display:flex; align-items:center; gap:10px; font-family:'Orbitron',sans-serif; font-weight:700; font-size:1.05rem;}
-.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent); box-shadow:0 0 12px var(--accent);}
+.brand{display:flex; align-items:center; gap:10px; font-family:'Orbitron',sans-serif; font-weight:700; font-size:1.05rem; min-width:0;}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent); box-shadow:0 0 12px var(--accent); flex:none;}
 .brand span.sub{color:var(--ink-dim); font-weight:400; font-size:0.7rem; letter-spacing:0.15em;}
+
+.nav-menu{display:flex; align-items:center; gap:28px;}
 .nav-links{display:flex; align-items:center; gap:28px; font-size:0.92rem;}
 .nav-links a{color:var(--ink-dim); transition:color .2s;}
 .nav-links a:hover{color:var(--accent);}
@@ -124,6 +127,29 @@ button{font-family:inherit;cursor:pointer;}
   transition:all .2s;
 }
 .nav-back:hover{color:var(--accent); border-color:var(--accent); box-shadow:0 0 16px rgba(34,255,140,0.2);}
+
+/* Botao hamburger (mobile) */
+.nav-toggle{
+  display:none;
+  flex:none;
+  width:40px; height:40px;
+  align-items:center; justify-content:center;
+  background:var(--glass-hi); border:1px solid var(--line); border-radius:10px;
+  transition:border-color .2s;
+}
+.nav-toggle:hover{border-color:var(--accent);}
+.nav-toggle-lines{position:relative; width:20px; height:14px; display:block;}
+.nav-toggle-lines span{
+  position:absolute; left:0; width:100%; height:2px; border-radius:2px;
+  background:var(--ink);
+  transition:transform .25s ease, opacity .2s ease, top .25s ease;
+}
+.nav-toggle-lines span:nth-child(1){top:0;}
+.nav-toggle-lines span:nth-child(2){top:6px;}
+.nav-toggle-lines span:nth-child(3){top:12px;}
+.nav-toggle.open .nav-toggle-lines span:nth-child(1){top:6px; transform:rotate(45deg);}
+.nav-toggle.open .nav-toggle-lines span:nth-child(2){opacity:0;}
+.nav-toggle.open .nav-toggle-lines span:nth-child(3){top:6px; transform:rotate(-45deg);}
 
 /* ---------- Buttons ---------- */
 .btn{
@@ -184,6 +210,22 @@ button{font-family:inherit;cursor:pointer;}
   border-radius:999px; padding:10px 18px; font-size:0.85rem;
 }
 .search-box .clear-btn:hover{color:var(--accent); border-color:var(--accent);}
+
+.home-quicknav{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+  margin-bottom:32px;
+}
+.home-quicknav a{
+  font-size:0.82rem; color:var(--ink-dim);
+  border:1px solid var(--line); padding:8px 18px; border-radius:999px;
+  background:var(--glass-hi);
+  transition:all .2s;
+}
+.home-quicknav a:hover{color:var(--accent); border-color:var(--accent); box-shadow:0 0 16px rgba(34,255,140,0.18);}
+@media (max-width:600px){
+  .home-quicknav{gap:8px;}
+  .home-quicknav a{font-size:0.78rem; padding:7px 14px;}
+}
 
 .quick-tags{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:22px;}
 .quick-tags button{
@@ -416,26 +458,34 @@ footer .disclaimer{
 }
 
 @media (max-width:720px){
-  .nav-links{display:none;}
   .section{padding:56px 0;}
-  .hero{padding:155px 0 60px;}
+  .hero{padding:130px 0 60px;}
   .stat-row{gap:28px;}
-
-  /* Nav em duas linhas: marca em cima (sem subtítulo),
-     botão de voltar + seletor de idioma embaixo — evita
-     que o texto da marca fique espremido contra as bordas. */
-  .nav-inner{
-    flex-wrap:wrap;
-    height:auto;
-    padding:14px 20px;
-    row-gap:10px;
-  }
-  .brand{flex:1 1 100%; font-size:0.92rem; gap:8px; min-width:0;}
-  .brand .sub{display:none;}
-  .nav-back{font-size:0.78rem; padding:7px 14px;}
-  .lang-switch{margin-left:auto;}
-  .tea-hero{padding-top:180px;}
   .acc-header h3{font-size:1.02rem;}
+
+  .brand{font-size:0.95rem;}
+  .brand .sub{display:none;}
+
+  /* Menu mobile: hamburguer que abre um painel com os links
+     e o seletor de idioma, em vez de espremer tudo na barra. */
+  .nav-toggle{display:flex;}
+  .nav-menu{
+    display:none;
+    position:absolute;
+    top:100%; left:0; right:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+    background:rgba(4,8,10,0.97);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(14px);
+    padding:16px 20px 22px;
+  }
+  .nav-menu.open{display:flex;}
+  .nav-links{flex-direction:column; align-items:flex-start; gap:0;}
+  .nav-links a{padding:12px 4px; width:100%; border-bottom:1px solid var(--line); font-size:1rem;}
+  .nav-links a:last-child{border-bottom:0;}
+  .nav-back{align-self:flex-start;}
 }
 
 /* ---------- Seletor de idioma ---------- */

@@ -32,6 +32,7 @@ const UI = {
     heroLead: "Digite um sintoma e o sistema cruza décadas de conhecimento popular brasileiro com uma interface pensada para o futuro. Cada chá tem sua própria página, com todos os ingredientes escaneados em detalhe.",
     searchPlaceholder: "Buscar por sintoma: azia, gripe, insônia, pressão alta...",
     searchClear: "Limpar",
+    searchBtn: "Pesquisar",
 
     quickTags: [
       { label: "Azia", term: "azia" },
@@ -117,6 +118,7 @@ const UI = {
     heroLead: "Type in a symptom and the system cross-references decades of Brazilian folk knowledge with an interface built for the future. Every tea has its own page, with every ingredient scanned in detail.",
     searchPlaceholder: "Search by symptom: heartburn, flu, insomnia, high blood pressure...",
     searchClear: "Clear",
+    searchBtn: "Search",
 
     quickTags: [
       { label: "Heartburn", term: "heartburn" },
@@ -202,6 +204,7 @@ const UI = {
     heroLead: "Escribe un síntoma y el sistema cruza décadas de conocimiento popular brasileño con una interfaz pensada para el futuro. Cada té tiene su propia página, con todos los ingredientes escaneados en detalle.",
     searchPlaceholder: "Buscar por síntoma: acidez, gripe, insomnio, presión alta...",
     searchClear: "Limpiar",
+    searchBtn: "Buscar",
 
     quickTags: [
       { label: "Acidez", term: "acidez" },

@@ -86,9 +86,13 @@ function renderEstudo(filter){
 function initEstudoSearch(){
   const input = document.getElementById("estudoSearch");
   if (!input) return;
-  input.addEventListener("input", () => renderEstudo(input.value));
   const clearBtn = document.getElementById("clearEstudoSearch");
-  if (clearBtn) clearBtn.addEventListener("click", () => { input.value = ""; renderEstudo(""); input.focus(); });
+  const searchBtn = document.getElementById("doEstudoSearch");
+  const doSearch = () => { renderEstudo(input.value); clearBtn?.classList.toggle("visible", !!input.value); };
+  input.addEventListener("input", doSearch);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); doSearch(); } });
+  if (searchBtn) searchBtn.addEventListener("click", doSearch);
+  if (clearBtn) clearBtn.addEventListener("click", () => { input.value = ""; renderEstudo(""); clearBtn.classList.remove("visible"); input.focus(); });
 }
 
 document.addEventListener("DOMContentLoaded", () => {

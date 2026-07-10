@@ -66,9 +66,13 @@ function renderAccordion(filter){
 function initAccordionSearch(){
   const input = document.getElementById("accSearch");
   if (!input) return;
-  input.addEventListener("input", () => renderAccordion(input.value));
   const clearBtn = document.getElementById("clearAccSearch");
-  if (clearBtn) clearBtn.addEventListener("click", () => { input.value = ""; renderAccordion(""); input.focus(); });
+  const searchBtn = document.getElementById("doAccSearch");
+  const doSearch = () => { renderAccordion(input.value); clearBtn?.classList.toggle("visible", !!input.value); };
+  input.addEventListener("input", doSearch);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); doSearch(); } });
+  if (searchBtn) searchBtn.addEventListener("click", doSearch);
+  if (clearBtn) clearBtn.addEventListener("click", () => { input.value = ""; renderAccordion(""); clearBtn.classList.remove("visible"); input.focus(); });
 }
 
 document.addEventListener("DOMContentLoaded", () => {

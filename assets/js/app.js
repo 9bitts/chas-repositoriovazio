@@ -135,11 +135,18 @@ let currentHomeSearch = "";
 function initHomeSearch(){
   const input = document.getElementById("symptomSearch");
   const clearBtn = document.getElementById("clearSearch");
+  const searchBtn = document.getElementById("doSearch");
   if (!input) return;
   input.value = currentHomeSearch;
-  input.addEventListener("input", () => { currentHomeSearch = input.value; renderTeaGrid(input.value); });
+  const doSearch = () => { currentHomeSearch = input.value; renderTeaGrid(input.value); clearBtn.classList.toggle("visible", !!input.value); };
+  input.addEventListener("input", doSearch);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); doSearch(); } });
+  clearBtn?.classList.toggle("visible", !!input.value);
+  if (searchBtn){
+    searchBtn.addEventListener("click", doSearch);
+  }
   if (clearBtn){
-    clearBtn.addEventListener("click", () => { input.value=""; currentHomeSearch=""; renderTeaGrid(""); input.focus(); });
+    clearBtn.addEventListener("click", () => { input.value=""; currentHomeSearch=""; renderTeaGrid(""); clearBtn.classList.remove("visible"); input.focus(); });
   }
 }
 
